@@ -1,6 +1,6 @@
 package dojo.supermarket.model;
 
-public class Offer {
+public abstract class Offer {
 
     SpecialOfferType offerType;
     private final Product product;
@@ -15,4 +15,6 @@ public class Offer {
     Product getProduct() {
         return product;
     }
+
+    public abstract Discount getDiscount(double quantity, Product p, double unitPrice);
 }

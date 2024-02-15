@@ -36,18 +36,19 @@ public class ShoppingCart {
         for (Product p: productQuantities().keySet()) {
             if (offers.containsKey(p)) {
                 Discount discount = null;
-                if (getOffer(offers, p).offerType == SpecialOfferType.THREE_FOR_TWO && getQuantityAsInt(p) >= 3) {
-                    discount = new Discount(p, "3 for 2", - getDiscountAmount(catalog, p, 3));
+                discount = getOffer(offers, p).getDiscount(getQuantity(p), p, getUnitPrice(catalog, p));
+                /*if (getOffer(offers, p).offerType == SpecialOfferType.THREE_FOR_TWO && getQuantityAsInt(p) >= 3) {
+                    discount = new Discount(p, "3 for 2", - getDiscountTotal(catalog, p, 3));
                 }
-                else if (getOffer(offers, p).offerType == SpecialOfferType.TWO_FOR_AMOUNT && getQuantityAsInt(p) >= 2) {
-                    discount = new Discount(p, "2 for " + getOffer(offers, p).argument, -getDiscountTotal(offers, catalog, p, 2));
+                else if (getOffer(offers, p).offerType == SpecialOfferType.X_FOR_AMOUNT && getQuantityAsInt(p) >= 2) {
+                    discount = new Discount(p, "2 for " + getOffer(offers, p).argument, -getDiscountAmount(offers, catalog, p, 2));
                 }
-                else if (getOffer(offers, p).offerType == SpecialOfferType.FIVE_FOR_AMOUNT && getQuantityAsInt(p) >= 5) {
-                    discount = new Discount(p, 5 + " for " + getOffer(offers, p).argument, -getDiscountTotal(offers, catalog, p, 5));
+                else if (getOffer(offers, p).offerType == SpecialOfferType.X_FOR_AMOUNT && getQuantityAsInt(p) >= 5) {
+                    discount = new Discount(p, 5 + " for " + getOffer(offers, p).argument, -getDiscountAmount(offers, catalog, p, 5));
                 }
-                else if (getOffer(offers, p).offerType == SpecialOfferType.TEN_PERCENT_DISCOUNT) {
-                    discount = new Discount(p, getOffer(offers, p).argument + "% off", -getQuantity(p) * getUnitPrice(catalog, p) * getOffer(offers, p).argument / 100.0);
-                }
+                else if (getOffer(offers, p).offerType == SpecialOfferType.PERCENT_DISCOUNT) {
+                    discount = new Discount(p, getOffer(offers, p).argument + "% off", -getDiscountForPercent(catalog, p, offers));
+                }*/
 
                 if (discount != null)
                     receipt.addDiscount(discount);
@@ -55,17 +56,21 @@ public class ShoppingCart {
         }
     }
 
-    private double getTotal(Map<Product, Offer> offers, SupermarketCatalog catalog, Product p, int i) {
+    /*private double getTotal(Map<Product, Offer> offers, SupermarketCatalog catalog, Product p, int i) {
         return getOffer(offers, p).argument * getNumberOfXs(p, i) + getQuantityAsInt(p) % 2 * getUnitPrice(catalog, p);
     }
 
-    private double getDiscountTotal(Map<Product, Offer> offers, SupermarketCatalog catalog, Product p, int i) {
+    private double getDiscountAmount(Map<Product, Offer> offers, SupermarketCatalog catalog, Product p, int i) {
         return getUnitPrice(catalog, p) * getQuantity(p) - getTotal(offers, catalog, p, i);
     }
 
-    private double getDiscountAmount(SupermarketCatalog catalog, Product p, int i) {
+    private double getDiscountTotal(SupermarketCatalog catalog, Product p, int i) {
         return getQuantity(p) * getUnitPrice(catalog, p) - ((getNumberOfXs(p, i) * 2 * getUnitPrice(catalog, p)) + getQuantityAsInt(p) % 3 * getUnitPrice(catalog, p));
     }
+
+    private double getDiscountForPercent(SupermarketCatalog catalog, Product p, Map<Product, Offer> offers) {
+        return getQuantity(p) * getUnitPrice(catalog, p) * getOffer(offers, p).argument / 100.0;
+    }*/
 
     private int getNumberOfXs(Product p, int i) {
         return getQuantityAsInt(p) / i;
