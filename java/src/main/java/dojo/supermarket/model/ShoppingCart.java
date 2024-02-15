@@ -36,35 +36,35 @@ public class ShoppingCart {
         for (Product p: productQuantities().keySet()) {
             if (offers.containsKey(p)) {
                 Discount discount = null;
-                int i = 1;
-                if (getOffer(offers, p).offerType == SpecialOfferType.THREE_FOR_TWO) {
-                    i = 3;
-                } else if (getOffer(offers, p).offerType == SpecialOfferType.TWO_FOR_AMOUNT) {
-                    i = 2;
-                    if (getQuantityAsInt(p) >= 2) {
-                        double total = getOffer(offers, p).argument * getNumberOfXs(p, i) + getQuantityAsInt(p) % 2 * getUnitPrice(catalog, p);
-                        double discountN = getUnitPrice(catalog, p) * getQuantity(p) - total;
-                        discount = new Discount(p, "2 for " + getOffer(offers, p).argument, -discountN);
-                    }
+                if (getOffer(offers, p).offerType == SpecialOfferType.THREE_FOR_TWO && getQuantityAsInt(p) >= 3) {
+                    discount = new Discount(p, "3 for 2", - getDiscountAmount(catalog, p, 3));
                 }
-                if (getOffer(offers, p).offerType == SpecialOfferType.FIVE_FOR_AMOUNT) {
-                    i = 5;
+                else if (getOffer(offers, p).offerType == SpecialOfferType.TWO_FOR_AMOUNT && getQuantityAsInt(p) >= 2) {
+                    discount = new Discount(p, "2 for " + getOffer(offers, p).argument, -getDiscountTotal(offers, catalog, p, 2));
                 }
-                if (getOffer(offers, p).offerType == SpecialOfferType.THREE_FOR_TWO && getQuantityAsInt(p) > 2) {
-                    double discountAmount = getQuantity(p) * getUnitPrice(catalog, p) - ((getNumberOfXs(p, i) * 2 * getUnitPrice(catalog, p)) + getQuantityAsInt(p) % 3 * getUnitPrice(catalog, p));
-                    discount = new Discount(p, "3 for 2", -discountAmount);
+                else if (getOffer(offers, p).offerType == SpecialOfferType.FIVE_FOR_AMOUNT && getQuantityAsInt(p) >= 5) {
+                    discount = new Discount(p, 5 + " for " + getOffer(offers, p).argument, -getDiscountTotal(offers, catalog, p, 5));
                 }
-                if (getOffer(offers, p).offerType == SpecialOfferType.TEN_PERCENT_DISCOUNT) {
+                else if (getOffer(offers, p).offerType == SpecialOfferType.TEN_PERCENT_DISCOUNT) {
                     discount = new Discount(p, getOffer(offers, p).argument + "% off", -getQuantity(p) * getUnitPrice(catalog, p) * getOffer(offers, p).argument / 100.0);
                 }
-                if (getOffer(offers, p).offerType == SpecialOfferType.FIVE_FOR_AMOUNT && getQuantityAsInt(p) >= 5) {
-                    double discountTotal = getUnitPrice(catalog, p) * getQuantity(p) - (getOffer(offers, p).argument * getNumberOfXs(p, i) + getQuantityAsInt(p) % 5 * getUnitPrice(catalog, p));
-                    discount = new Discount(p, i + " for " + getOffer(offers, p).argument, -discountTotal);
-                }
+
                 if (discount != null)
                     receipt.addDiscount(discount);
             }
         }
+    }
+
+    private double getTotal(Map<Product, Offer> offers, SupermarketCatalog catalog, Product p, int i) {
+        return getOffer(offers, p).argument * getNumberOfXs(p, i) + getQuantityAsInt(p) % 2 * getUnitPrice(catalog, p);
+    }
+
+    private double getDiscountTotal(Map<Product, Offer> offers, SupermarketCatalog catalog, Product p, int i) {
+        return getUnitPrice(catalog, p) * getQuantity(p) - getTotal(offers, catalog, p, i);
+    }
+
+    private double getDiscountAmount(SupermarketCatalog catalog, Product p, int i) {
+        return getQuantity(p) * getUnitPrice(catalog, p) - ((getNumberOfXs(p, i) * 2 * getUnitPrice(catalog, p)) + getQuantityAsInt(p) % 3 * getUnitPrice(catalog, p));
     }
 
     private int getNumberOfXs(Product p, int i) {
