@@ -6,6 +6,9 @@ import java.util.List;
 
 public class Receipt {
 
+    public Receipt() {
+    }
+
     private final List<ReceiptItem> items = new ArrayList<>();
     private final List<Discount> discounts = new ArrayList<>();
 
