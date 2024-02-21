@@ -2,8 +2,8 @@ package dojo.supermarket.model;
 
 public class PercentDiscount extends Offer{
     int amount;
-    public PercentDiscount(SpecialOfferType offerType, Product product, double argument) {
-        super(offerType, product, argument);
+    public PercentDiscount(Product product, double argument) {
+        super(SpecialOfferType.PERCENT_DISCOUNT, product, argument);
     }
 
     @Override
