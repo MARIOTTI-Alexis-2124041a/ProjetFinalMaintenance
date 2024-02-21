@@ -89,6 +89,8 @@ class ShoppingCartTest {
             Teller teller = new Teller(catalog);
             Receipt receipt = teller.checksOutArticlesFrom(shoppingCarts.get(i));
             System.out.println(shoppingCartTotals.get(i));
+            System.out.println(receipt.getTotalPrice());
+            System.out.println("ooooooooooooooo");
             assertEquals((double)shoppingCartTotals.get(i), receipt.getTotalPrice());
         }
     }

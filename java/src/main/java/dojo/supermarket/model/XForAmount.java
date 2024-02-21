@@ -1,8 +1,8 @@
 package dojo.supermarket.model;
 
 public class XForAmount extends Offer{
-    int amount;
-    public XForAmount(Product product, double argument, int amount) {
+    double amount;
+    public XForAmount(Product product, double argument, double amount) {
         super(SpecialOfferType.X_FOR_AMOUNT, product, argument);
         this.amount = amount;
     }
