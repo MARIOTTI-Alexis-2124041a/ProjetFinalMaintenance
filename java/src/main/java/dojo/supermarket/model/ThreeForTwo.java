@@ -3,8 +3,8 @@ package dojo.supermarket.model;
 public class ThreeForTwo extends Offer{
 
     int amount;
-    public ThreeForTwo(SpecialOfferType offerType, Product product, double argument) {
-        super(offerType, product, argument);
+    public ThreeForTwo(Product product, double argument) {
+        super(SpecialOfferType.THREE_FOR_TWO, product, argument);
     }
 
     @Override

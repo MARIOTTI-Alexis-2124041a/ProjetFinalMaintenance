@@ -1,9 +1,9 @@
 package dojo.supermarket.model;
 
-public abstract class XForAmount extends Offer{
+public class XForAmount extends Offer{
     int amount;
-    public XForAmount(SpecialOfferType offerType, Product product, double argument, int amount) {
-        super(offerType, product, argument);
+    public XForAmount(Product product, double argument, int amount) {
+        super(SpecialOfferType.X_FOR_AMOUNT, product, argument);
         this.amount = amount;
     }
 
