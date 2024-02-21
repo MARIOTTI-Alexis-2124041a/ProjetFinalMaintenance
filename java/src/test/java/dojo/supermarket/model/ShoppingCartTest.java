@@ -1,16 +1,11 @@
 package dojo.supermarket.model;
 
-
-
-
-
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.testng.annotations.BeforeClass;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,8 +24,9 @@ class ShoppingCartTest {
 
     private static List<Double> shoppingCartTotals = new ArrayList<>();
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
+
         toothbrush = new Product("toothbrush", ProductUnit.EACH);
         apples = new Product("apples", ProductUnit.KILO);
         rice = new Product("rice", ProductUnit.EACH);
@@ -69,7 +65,7 @@ class ShoppingCartTest {
         shoppingCart2.addItemQuantity(dentifrice, 4.0);
         shoppingCart2.addItemQuantity(cherryTomatoes, 2.0);
         shoppingCarts.add(shoppingCart2);
-        shoppingCartTotals.add(16.0);
+        shoppingCartTotals.add(15.555);
 
         ShoppingCart shoppingCart3 = new ShoppingCart();
         shoppingCart3.addItemQuantity(toothbrush, 1);
@@ -78,22 +74,21 @@ class ShoppingCartTest {
         shoppingCart3.addItemQuantity(dentifrice, 7.0);
         shoppingCart3.addItemQuantity(cherryTomatoes, 4.0);
         shoppingCarts.add(shoppingCart3);
-        shoppingCartTotals.add(20.0);
+        shoppingCartTotals.add(17.5485);
 
     }
 
 
     @Test
     public void testDiscount() {
-        for (int i = 0; i < shoppingCarts.size() -1; i++) {
+        for (int i = 0; i < shoppingCarts.size(); i++) {
             Teller teller = new Teller(catalog);
+            for (Product p : offers.keySet()) {
+                teller.addSpecialOffer(p, offers.get(p));
+            }
             Receipt receipt = teller.checksOutArticlesFrom(shoppingCarts.get(i));
-            System.out.println(shoppingCartTotals.get(i));
-            System.out.println(receipt.getTotalPrice());
-            System.out.println("ooooooooooooooo");
-            assertEquals((double)shoppingCartTotals.get(i), receipt.getTotalPrice());
+            assertEquals(shoppingCartTotals.get(i), receipt.getTotalPrice(), 0.001);
         }
     }
-
 
 }

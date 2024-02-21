@@ -38,4 +38,17 @@ public class Receipt {
     public List<Discount> getDiscounts() {
         return discounts;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (ReceiptItem item : items) {
+            sb.append(item.getQuantity()).append(" ").append(item.getProduct().getName()).append(" ").append(item.getTotalPrice()).append("\n");
+        }
+        for (Discount discount : discounts) {
+            sb.append(discount.getDescription()).append(" -").append(discount.getDiscountAmount()).append("\n");
+        }
+        sb.append("Total: ").append(getTotalPrice());
+        return sb.toString();
+    }
 }

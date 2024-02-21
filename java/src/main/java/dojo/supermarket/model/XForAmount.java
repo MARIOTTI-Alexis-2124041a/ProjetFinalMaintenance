@@ -9,8 +9,8 @@ public class XForAmount extends Offer{
 
     @Override
     public Discount getDiscount(double quantity, Product p, double unitPrice) {
-        if (offerType == SpecialOfferType.X_FOR_AMOUNT && quantity >= amount) {
-            return new Discount(p, argument + "% off", -getDiscountAmount(unitPrice, quantity));
+        if (quantity >= argument) {
+            return new Discount(p, argument + " for the price of ", -getDiscountAmount(unitPrice, quantity));
         }
         else {
             return null;
@@ -18,11 +18,15 @@ public class XForAmount extends Offer{
     }
 
     private double getDiscountAmount(double unitPrice, double quantity) {
-        return unitPrice * quantity - argument * (getQuantityAsInt(quantity)/amount) + getQuantityAsInt(quantity) % 2 * unitPrice;
+        return unitPrice * quantity -  (amount * (getQuantityAsInt(quantity)/getArgumentAsInt()) + getQuantityAsInt(quantity) % argument * unitPrice);
     }
 
     private int getQuantityAsInt(double quantity) {
         return (int) quantity;
+    }
+
+    private int getArgumentAsInt() {
+        return (int) argument;
     }
 }
 
