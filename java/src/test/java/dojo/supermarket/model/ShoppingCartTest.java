@@ -38,11 +38,11 @@ class ShoppingCartTest {
         cherryTomatoes = new Product("cherry tomatoes", ProductUnit.KILO);
 
         offers = Map.of(
-                toothbrush, new Offer(SpecialOfferType.THREE_FOR_TWO, toothbrush, 1.0),
-                apples, new Offer(SpecialOfferType.TWENTY_PERCENT_DISCOUNT, apples, 20.0),
-                rice, new Offer(SpecialOfferType.TEN_PERCENT_DISCOUNT, rice, 10.0),
-                dentifrice, new Offer(SpecialOfferType.FIVE_FOR_AMOUNT, dentifrice, 7.49),
-                cherryTomatoes, new Offer(SpecialOfferType.TWO_FOR_AMOUNT, cherryTomatoes, 0.99)
+                toothbrush, new ThreeForTwo(toothbrush, 1.0),
+                apples, new PercentDiscount(apples, 20.0),
+                rice, new PercentDiscount(rice, 10.0),
+                dentifrice, new XForAmount(dentifrice, 5, 7.49),
+                cherryTomatoes, new XForAmount(cherryTomatoes, 2, 0.99)
         );
 
         catalog = new Catalog(Map.of(
